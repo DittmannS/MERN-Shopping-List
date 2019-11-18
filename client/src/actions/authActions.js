@@ -11,7 +11,6 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAIL
 } from './types';
-import { get } from 'mongoose';
 
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {

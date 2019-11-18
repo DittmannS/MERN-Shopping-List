@@ -36,12 +36,15 @@ class ItemModal extends Component {
     onSubmit = e => {
         e.preventDefault();
         
-        const newItem = {
-            name: this.state.name
-        }
-
-        // Add item via addItem action
-        this.props.addItem(newItem);
+        const newItem = this.state.name
+        const singleItem = newItem.split(',');
+        
+        for (let i = 0; i < singleItem.length; i++) {
+            const cItem = {name: singleItem[i]};
+            
+            // Add item via addItem action
+            this.props.addItem(cItem);  
+        };
 
         // Close modal
         this.toggle();

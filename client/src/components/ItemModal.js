@@ -58,7 +58,7 @@ class ItemModal extends Component {
                 color="dark"
                 style={{marginBottom: '2rem'}}
                 onClick={this.toggle}
-                >Add Item</button> : <h4 className="mb-3 ml-4">Please log in to manage items</h4>                
+                >Artikel hinzufügen</button> : <h4 className="mb-3 ml-4">Du kannst den Einkaufszettel nur bearbeiten wenn du angemeldet bist.</h4>                
                 }
 
                 <Modal

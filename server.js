@@ -5,8 +5,8 @@ const config = require('config');
 
 const app = express();
 
-// Bodyparser Middleware
-app.use(express.json());
+// Init Middleware
+app.use(express.json({ extended: false }));
 
 // DB Config
 const db = config.get('mongoURI');
@@ -20,6 +20,7 @@ mongoose
     })
     .then(() => console.log('MongoDB Connected...'))
     .catch(err => console.log(err));
+mongoose.set('useFindAndModify', false);
 
 // Use Routes
 app.use('/api/items', require('./routes/api/items'));

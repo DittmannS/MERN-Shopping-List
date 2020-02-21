@@ -1,36 +1,107 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../../middleware/auth')
+const auth = require('../../middleware/auth');
+const { check, validationResult } = require('express-validator');
 
-// Item Model
+const User = require('../../models/User');
 const Item = require('../../models/Item');
 
-// @route   GET api/items
-// @desc    GET All Items
-// @access  Public
-router.get('/', (req, res) => {
-    Item.find()
-        .sort({ date: -1 })
-        .then(items => res.json(items))
+// @route       GET api/items
+// @desc        Get all users items
+// @access      Private
+router.get('/', auth, async (req, res) => {
+    try {
+        const items = await Item.find({ user: req.user.id }).sort({ date: -1 });
+        res.json(items);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
 });
 
-// @route   POST api/items
-// @desc    Creat a Item
-// @access  Private
-router.post('/', auth, (req, res) => {
-    const newItem = new Item({
-        name: req.body.name
-    });
+// @route       POST api/items
+// @desc        Add new items
+// @access      Private
+router.post('/', [ auth, [
+    check('item', 'Item is required').not().isEmpty()]] , 
     
-    newItem.save().then(item => res.json(item));
-});
+    async (req, res) => { 
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
 
-// @route   Delete api/items/:id
-// @desc    Delete a Item
-// @access  Private
-router.delete('/:id', auth, (req, res) => {
-    Item.findById(req.params.id)
-    .then(item => item.remove().then(() => res.json({success: true})))
-    .catch(err => res.status(404).json({ success: false}));
-});
+        const { item } = req.body;
+
+        try {
+            const newItem = new Item({
+                item,
+                user: req.user.id
+            });
+
+            const items = await newItem.save();
+
+            res.json(items);
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server Error');
+        }
+    }
+);
+
+// @route       PUT api/items/:id
+// @desc        Update items
+// @access      Private
+router.put('/:id', auth, async (req, res) => {
+    const { item } = req.body;
+
+    // Build item object
+    const itemField = {};
+    if(item) itemField.item = item;
+
+    try {
+        let item = await Item.findById(req.params.id);
+
+        if(!item) return res.status(404).json({ msg: 'Contact not found' });
+
+        // Make sure user owns contact
+        if(item.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'Not authorized '});
+        }
+
+        item = await Item.findByIdAndUpdate(req.params.id,
+            { $set: itemField },
+            { new: true });
+
+            res.json(item);
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
+
+// @route       DELETE api/items/:id
+// @desc        Delete items
+// @access      Private
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        let item = await Item.findById(req.params.id);
+
+        if(!item) return res.status(404).json({ msg: 'Contact not found' });
+
+        // Make sure user owns contact
+        if(item.user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'Not authorized '});
+        }
+
+        await Item.findByIdAndRemove(req.params.id);
+
+        res.json({ msg: 'Item removed '});
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+})
 module.exports = router;

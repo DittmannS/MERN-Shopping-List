@@ -76,7 +76,7 @@ class ItemModal extends Component {
                                     id="item" 
                                     placeholder="neuer Artikel" 
                                     onChange={this.onChange}
-                                    autofocus="true"
+                                    autoFocus="true"
                                 />
                                 <Button
                                     color="dark"

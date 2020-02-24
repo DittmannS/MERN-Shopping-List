@@ -4,12 +4,12 @@
   "description": "A small Shopping List App with MERN",
   "main": "server.js",
   "scripts": {
-    "client-install": "npm install --prefix custom",
+    "client-install": "npm install --prefix client",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "custom": "npm start --prefix custom",
-    "custominstall": "npm install --prefix custom",
-    "dev": "concurrently \"npm run server\" \"npm run custom\""
+    "client": "npm start --prefix client",
+    "clientinstall": "npm install --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",

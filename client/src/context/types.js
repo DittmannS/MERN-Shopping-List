@@ -1,11 +1,11 @@
-export const GET_CONTACTS = 'GET_CONTACTS';
-export const ADD_CONTACT = 'ADD_CONTACT';
-export const DELETE_CONTACT = 'DELETE_CONTACT';
+export const GET_ITEMS = 'GET_ITEMS';
+export const ADD_ITEM = 'ADD_ITEM';
+export const DELETE_ITEM = 'DELETE_ITEM';
 export const SET_CURRENT = 'SET_CURRENT';
 export const CLEAR_CURRENT = 'CLEAR_CURRENT';
-export const UPDATE_CONTACT = 'UPDATE_CONTACT';
-export const FILTER_CONTACTS = 'FILTER_CONTACTS';
-export const CLEAR_CONTACTS = 'CLEAR_CONTACTS';
+export const UPDATE_ITEM = 'UPDATE_ITEM';
+export const FILTER_ITEMS = 'FILTER_ITEMS';
+export const CLEAR_ITEMS = 'CLEAR_ITEMS';
 export const CLEAR_FILTER = 'CLEAR_FILTER';
 export const CONTACT_ERROR = 'CONTACT_ERROR';
 export const SET_ALERT = 'SET_ALERT';

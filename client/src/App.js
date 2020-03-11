@@ -1,35 +1,47 @@
-import React, { Component } from 'react';
-import AppNavbar from './components/AppNavbar';
-import ShoppingList from './components/ShoppingList';
-import ItemModal from './components/ItemModal';
-import { Container } from 'reactstrap';
+import React, { Fragment } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Navbar from './components/layout/Navbar';
+import Home from './components/pages/Home';
+import About from './components/pages/About';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import Alerts from './components/layout/Alerts';
+import PrivateRoute from './components/routing/PrivateRoute';
 
-import { Provider } from 'react-redux';
-import store from './store';
-import { loadUser } from './actions/authActions';
+import ItemState from './context/item/ItemState';
+import AuthState from './context/auth/AuthState';
+import AlertState from './context/alert/AlertState';
+import setAuthToken from './utils/setAuthToken';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
-class App extends Component {
-  componentDidMount() {
-    store.dispatch(loadUser());
-  }
+if(localStorage.token) {
+    setAuthToken(localStorage.token);
+}
 
-  render() {
+const App = () => {
     return (
-      <Provider store={store}>
-        <div className="App">
-          <AppNavbar />
-          <Container>
-            <ItemModal />
-            <ShoppingList />
-          </Container>
-        </div>
-      </Provider>
+        <AuthState>
+            <ItemState>
+                <AlertState>
+                    <Router>
+                        <Fragment>
+                            <Navbar />
+                            <div className="container">
+                                <Alerts />
+                                <Switch>
+                                    <PrivateRoute exact path='/' component={Home} />
+                                    <Route exact path='/about' component={About} />
+                                    <Route exact path='/register' component={Register} />
+                                    <Route exact path='/login' component={Login} />
+                                </Switch>    
+                            </div>    
+                        </Fragment>
+                    </Router>
+                </AlertState>
+            </ItemState>
+        </AuthState>
     );
-
-  }
 }
 
 export default App;

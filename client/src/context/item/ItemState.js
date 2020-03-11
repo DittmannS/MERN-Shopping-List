@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import uuid from 'uuid';
+import axios from 'axios';
 import ItemContext from './itemContext';
 import itemReducer from './itemReducer';
 import {
@@ -8,40 +8,43 @@ import {
     UPDATE_ITEM,
     SET_CURRENT,
     CLEAR_CURRENT,
+    ITEM_ERROR,
     FILTER_ITEMS,
     CLEAR_FILTER
 } from '../types';
 
 const ItemState = props => {
     const initialState = {
-        items: [
-            {
-                id: 1,
-                name: 'Dogs',
-            },
-            {
-                id: 2,
-                name: 'Cats',
-            },
-            {
-                id: 3,
-                name: 'Fish',
-            },
-            {
-                id: 4,
-                name: 'Cow',
-            },
-        ],
+        items: [],
         current: null,
-        filtered: null
+        filtered: null,
+        error: null
     };
 
     const [ state, dispatch ] = useReducer(itemReducer, initialState);
     
     // Add Item
-    const addItem = item => {
-        item.id = uuid.v4();
-        dispatch({ type: ADD_ITEM, payload: item });
+    const addItem = async item => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+
+        try {
+            const res = await axios.post('/api/items', item, config);
+            dispatch({ 
+                type: ADD_ITEM, 
+                payload: res.data 
+            });
+        } catch (err) {
+            dispatch({ 
+                type: ITEM_ERROR,
+                payload: err.response.msg
+            });
+        }
+
+        
     }
 
     // Delete Item
@@ -77,6 +80,7 @@ const ItemState = props => {
             items: state.items,
             current: state.current,
             filtered: state.filtered,
+            error: state.error,
             addItem,
             deleteItem,
             setCurrent,

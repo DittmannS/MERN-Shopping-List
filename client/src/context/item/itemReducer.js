@@ -1,4 +1,5 @@
 import {
+    GET_ITEMS,
     ADD_ITEM,
     DELETE_ITEM,
     UPDATE_ITEM,
@@ -11,20 +12,29 @@ import {
 
 export default (state, action) => {
     switch(action.type) {
+        case GET_ITEMS:
+            return {
+                ...state,
+                items: action.payload,
+                loading: false
+            }
         case ADD_ITEM:
             return {
                 ...state,
-                items: [...state.items, action.payload]
+                items: [...state.items, action.payload],
+                loading: false
             };
         case UPDATE_ITEM:
             return {
                 ...state,
-                items: state.items.map( item => item.id === action.payload.id ? action.payload : item)
+                items: state.items.map( item => item.id === action.payload.id ? action.payload : item),
+                loading: false
             };
         case DELETE_ITEM:
             return {
                 ...state,
-                items: state.items.filter(item => item.id !== action.payload)
+                items: state.items.filter(item => item.id !== action.payload),
+                loading: false
             };
         case SET_CURRENT:
             return {

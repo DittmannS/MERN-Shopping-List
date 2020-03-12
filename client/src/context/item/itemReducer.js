@@ -2,6 +2,7 @@ import {
     GET_ITEMS,
     ADD_ITEM,
     DELETE_ITEM,
+    CLEAR_ITEMS,
     UPDATE_ITEM,
     SET_CURRENT,
     CLEAR_CURRENT,
@@ -21,20 +22,30 @@ export default (state, action) => {
         case ADD_ITEM:
             return {
                 ...state,
-                items: [...state.items, action.payload],
+                items: [action.payload, ...state.items],
                 loading: false
             };
         case UPDATE_ITEM:
             return {
                 ...state,
-                items: state.items.map( item => item.id === action.payload.id ? action.payload : item),
+                items: state.items.map( item => 
+                    item._id === action.payload._id ? action.payload : item
+                ),
                 loading: false
             };
         case DELETE_ITEM:
             return {
                 ...state,
-                items: state.items.filter(item => item.id !== action.payload),
+                items: state.items.filter(item => item._id !== action.payload),
                 loading: false
+            };
+        case CLEAR_ITEMS:
+            return {
+                ...state,
+                contacts: null,
+                filtered: null,
+                error: null,
+                current: null,
             };
         case SET_CURRENT:
             return {

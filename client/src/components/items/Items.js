@@ -14,7 +14,7 @@ const Items = () => {
         // eslint-disable-next-line
     }, []);
 
-    if (items !== null && items.length === 0) {
+    if (items !== null && items.length === 0 && !loading) {
         return <h4>Please add a item</h4>;
     }
 

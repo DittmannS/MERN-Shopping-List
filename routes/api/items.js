@@ -23,7 +23,7 @@ router.get('/', auth, async (req, res) => {
 // @desc        Add new items
 // @access      Private
 router.post('/', [ auth, [
-    check('item', 'Item is required').not().isEmpty()]] , 
+    check('name', 'Name is required').not().isEmpty()]] , 
     
     async (req, res) => { 
         const errors = validationResult(req);
@@ -31,17 +31,17 @@ router.post('/', [ auth, [
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { item } = req.body;
+        const { name } = req.body;
 
         try {
             const newItem = new Item({
-                item,
+                name,
                 user: req.user.id
             });
 
-            const items = await newItem.save();
+            const item = await newItem.save();
 
-            res.json(items);
+            res.json(item);
         } catch (err) {
             console.error(err.message);
             res.status(500).send('Server Error');
@@ -53,11 +53,11 @@ router.post('/', [ auth, [
 // @desc        Update items
 // @access      Private
 router.put('/:id', auth, async (req, res) => {
-    const { item } = req.body;
+    const { name } = req.body;
 
     // Build item object
     const itemField = {};
-    if(item) itemField.item = item;
+    if(name) itemField.name = name;
 
     try {
         let item = await Item.findById(req.params.id);

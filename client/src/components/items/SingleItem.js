@@ -5,11 +5,10 @@ import ItemContext from '../../context/item/itemContext';
 const SingleItem = ({ item }) => {
     const itemContext = useContext(ItemContext);
     const { deleteItem, setCurrent, clearCurrent } = itemContext;
-
-    const { id, name } = item;
+    const { _id, name } = item;
 
     const onDelete = () => {
-        deleteItem(id);
+        deleteItem(_id);
         clearCurrent();
     }
 

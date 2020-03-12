@@ -64,8 +64,48 @@ const ItemState = props => {
     };
 
     // Delete Item
-    const deleteItem = id => {
-        dispatch({ type: DELETE_ITEM, payload: id });
+    const deleteItem = async id => {
+        try {
+            await axios.delete(`/api/items/${id}`);
+       
+            dispatch({ 
+                type: DELETE_ITEM,
+                payload: id
+            });
+        } catch (err) {
+            dispatch({ 
+                type: ITEM_ERROR,
+                payload: err.response.msg
+            });
+        }   
+
+
+    };
+
+    // Update Item
+    const updateItem = async item => {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        try {
+            const res = await axios.put(`/api/items/${item._id}`, item, config);
+            dispatch({ 
+                type: UPDATE_ITEM, 
+                payload: res.data 
+            });
+        } catch (err) {
+            dispatch({ 
+                type: ITEM_ERROR,
+                payload: err.response.msg
+            });
+        }
+    };
+
+    // Clear Items
+    const clearItems = () => {
+        dispatch({ type: CLEAR_ITEMS });
     };
 
     // Set Current Item
@@ -77,10 +117,7 @@ const ItemState = props => {
     const clearCurrent = () => {
         dispatch({ type: CLEAR_CURRENT });
     };
-    // Update Item
-    const updateItem = item => {
-        dispatch({ type: UPDATE_ITEM, payload: item });
-    };
+    
     // Filter Items 
     const filterItems = text => {
         dispatch({ type: FILTER_ITEMS, payload: text });
@@ -100,6 +137,7 @@ const ItemState = props => {
             getItems,
             addItem,
             deleteItem,
+            clearItems,
             setCurrent,
             clearCurrent,
             updateItem,

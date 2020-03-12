@@ -6,7 +6,7 @@ const ItemSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
     },
-    item: {
+    name: {
         type: String,
         required: true
     },

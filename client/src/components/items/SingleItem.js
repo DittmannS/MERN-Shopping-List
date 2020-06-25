@@ -6,7 +6,6 @@ const SingleItem = ({ item }) => {
     const itemContext = useContext(ItemContext);
     const { deleteItem, setCurrent, clearCurrent } = itemContext;
     const { _id, name } = item;
-
     const onDelete = () => {
         deleteItem(_id);
         clearCurrent();
@@ -16,8 +15,8 @@ const SingleItem = ({ item }) => {
         <div className='card bg-light'>
             <p>
                 <span className='p-1'>{name}</span>
-                <button className='edit btn btn-dark btn-sm' onClick={() => setCurrent(item)}>Edit</button>
-                <button className='delete btn btn-danger btn-sm' onClick={onDelete}>Delete</button>
+                <button className='edit btn btn-dark btn-sm' onClick={() => setCurrent(item)}>bearbeiten</button>
+                <button className='delete btn btn-danger btn-sm' onClick={onDelete}>entfernen</button>
             </p>
         </div>
     )

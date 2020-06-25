@@ -40,14 +40,14 @@ const ItemForm = () => {
 
     return (
         <form onSubmit={onSubmit}>
-            <h2 className="text-primary">{current ? 'Update Item' : 'Add Item'}</h2>
-            <input type="text" placeholder="Name" name="name" value={name} onChange={onChange}/>
+            <h2 className="text-primary">{current ? 'Artikel aktualisieren' : 'Artikel hinzufügen'}</h2>
+            <input type="text" placeholder="Artikel" name="name" value={name} onChange={onChange}/>
             <div>
-                <input type="submit" value={current ? 'Update Item' : 'Add Item'} className="btn btn-primary btn-block"/>
+                <input type="submit" value={current ? 'aktualisieren' : 'hinzufügen'} className="btn btn-primary btn-block"/>
             </div>
             {current && (
                 <div>
-                    <button className="btn btn-light btn-block" onClick={clearAll}>Clear</button>    
+                    <button className="btn btn-light btn-block" onClick={clearAll}>zurück</button>    
                 </div>
             )}
         </form>

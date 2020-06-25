@@ -22,7 +22,7 @@ const ItemFilter = () => {
 
     return (
         <form>
-            <input ref={text} type="text" placeholder="Filter Items..." onChange={onChange}/>
+            <input ref={text} type="text" placeholder="Artikel durchsuchen..." onChange={onChange}/>
         </form>
     )
 }

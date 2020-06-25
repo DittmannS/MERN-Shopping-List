@@ -47,7 +47,7 @@ typings/
 
 node_modules/
 
-/clinet/build/
+/client/build/
 
 .DS_Store
 /client/.env.local

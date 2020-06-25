@@ -13,11 +13,12 @@ const Items = () => {
         getItems();
         // eslint-disable-next-line
     }, []);
-
+    
     if (items !== null && items.length === 0 && !loading) {
-        return <h4>Please add a item</h4>;
+        return <h4>Derzeit sind keine Artikel auf dem Einkaufzettel.</h4>;
     }
-
+    
+    
     return (
         <Fragment>
             {items !== null && !loading ? (
@@ -25,12 +26,12 @@ const Items = () => {
                     {filtered !== null
                         ? filtered.map(item => (
                             <SingleItem 
-                                key={item._id} item={item} />
-                        ))
-                        : 
-                        items.map(item => (
-                            <SingleItem key={item._id} item={item} />
-                        ))
+                            key={item._id} item={item} />
+                            ))
+                            : 
+                            items.map(item => (
+                                <SingleItem key={item._id} item={item} />
+                                ))
                     }
                 </Fragment>
             ) : <Spinner />}
